@@ -109,6 +109,9 @@
   .voice-btn{flex:1;background:rgba(34,197,94,.1);border:1px solid var(--line2);color:var(--accent);border-radius:8px;padding:10px;font-weight:700;cursor:pointer;font-size:.88rem}
   .voice-btn.listening{background:var(--accent);color:#03170b}
   .voice-status{font-size:.8rem;color:var(--muted);min-height:20px;margin-bottom:10px;font-family:monospace}
+  .type-row{display:flex;gap:8px;margin-top:10px}
+  .type-row input{flex:1;background:#000;border:1px solid var(--line);border-radius:8px;color:var(--text);padding:10px;font-size:.85rem;font-family:monospace}
+  .type-row button{background:var(--bg2);border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}
   .demo{margin-top:20px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:24px;display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start}
   .demo-info p{color:var(--muted);font-size:.93rem;margin-top:8px}
   .calc{background:#000;border:1px solid var(--line2);border-radius:12px;padding:16px;max-width:280px}
@@ -222,7 +225,7 @@
   </div>
   <div class="demo">
     <div class="demo-info"><small style="font-family:monospace;color:var(--accent)">Live demo — 01 Calculator + Voice</small><h3 style="margin:8px 0">Try it here, or speak</h3><p>Mirrors the console version with voice input. Say e.g. five plus three. Built for quick testing without leaving the page.</p><p style="margin-top:12px"><a href="https://github.com/harsh17908/c-calculator" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Open c-calculator source →</a> · <a href="https://harsh17908.github.io/c-calculator/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Standalone live →</a></p></div>
-    <div class="calc" aria-label="Calculator demo"><div class="calc-display" id="calcDisplay">0</div><div class="voice-status" id="calcVoiceStatus">Voice: press and speak, e.g. five plus three</div><div class="voice-row"><button class="voice-btn" id="calcVoiceBtn" type="button">Voice input</button></div><div class="calc-keys"><button data-k="C">C</button><button data-k="back">⌫</button><button data-k="%" class="op">%</button><button data-k="/" class="op">/</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="*" class="op">*</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="-" class="op">-</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="+" class="op">+</button><button data-k="0">0</button><button data-k=".">.</button><button data-k="=" class="eq">=</button><button data-k="neg">+/-</button></div></div>
+    <div class="calc" aria-label="Calculator demo"><div class="calc-display" id="calcDisplay">0</div><div class="voice-status" id="calcVoiceStatus">Voice: press and speak, e.g. five plus three (Chrome, mic allowed)</div><div class="voice-row"><button class="voice-btn" id="calcVoiceBtn" type="button">Voice input</button></div><div class="calc-keys"><button data-k="C">C</button><button data-k="back">Back</button><button data-k="%" class="op">%</button><button data-k="/" class="op">/</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="*" class="op">*</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="-" class="op">-</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="+" class="op">+</button><button data-k="0">0</button><button data-k=".">.</button><button data-k="=" class="eq">=</button><button data-k="neg">+/-</button></div><div class="type-row"><input id="calcType" type="text" placeholder="Type: five plus three" aria-label="Type calculation" /><button id="calcGo" type="button">Run</button></div></div>
   </div>
 </section>
 
@@ -318,20 +321,36 @@
       t=t.replace(/[^0-9+\-*/.%()= C]/g,' ');
       return t.replace(/\s+/g,'');
     }
+    window.__calcParse=parse;
+    function runText(raw){
+      if(status)status.textContent='Heard: '+raw;
+      const expr=parse(raw);
+      if(!expr||!/[0-9C]/.test(expr)){if(status)status.textContent='Could not understand: '+raw+' — try e.g. five plus three';return;}
+      if(window.__calcVoice) window.__calcVoice(expr);
+      if(status)status.textContent+=' → '+expr;
+    }
     const rec=new SR();
     rec.lang='en-US'; rec.interimResults=false; rec.maxAlternatives=1;
     rec.onstart=()=>{btn.classList.add('listening');btn.textContent='Listening...';if(status)status.textContent='Listening... speak now';};
     rec.onend=()=>{btn.classList.remove('listening');btn.textContent='Voice input';};
-    rec.onerror=(e)=>{if(status)status.textContent='Voice error: '+e.error+' — try again';};
-    rec.onresult=(e)=>{
-      const transcript=e.results[0][0].transcript;
-      if(status)status.textContent='Heard: '+transcript;
-      const expr=parse(transcript);
-      if(!expr||!/[0-9]/.test(expr)){if(status)status.textContent='Could not understand: '+transcript+' — try e.g. five plus three';return;}
-      if(window.__calcVoice) window.__calcVoice(expr);
-      if(status)status.textContent+=' → '+expr;
+    rec.onerror=(e)=>{
+      if(e.error==='network'){
+        if(status)status.textContent='Voice error: network — Chrome could not reach speech servers. Check internet, allow mic (lock icon → Microphone → Allow), reload HTTPS page, then retry. Or type below.';
+      } else if(e.error==='not-allowed'||e.error==='service-not-allowed'){
+        if(status)status.textContent='Voice blocked: allow microphone in address bar → reload → retry. Or type below.';
+      } else if(e.error==='no-speech'){
+        if(status)status.textContent='No speech heard — speak louder, then retry. Or type below.';
+      } else { if(status)status.textContent='Voice error: '+e.error+' — retry or type below.'; }
     };
-    btn.addEventListener('click',()=>{try{rec.start();}catch(e){}});
+    rec.onresult=(e)=>{ runText(e.results[0][0].transcript); };
+    async function ensureMic(){
+      if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia) return true;
+      try{ const s=await navigator.mediaDevices.getUserMedia({audio:true}); s.getTracks().forEach(t=>t.stop()); return true; }
+      catch(err){ if(status)status.textContent='Mic blocked: allow microphone in address bar, reload, then retry. Or type below.'; return false; }
+    }
+    btn.addEventListener('click',async ()=>{ const ok=await ensureMic(); if(!ok) return; try{rec.abort();}catch(e){} try{rec.start();}catch(e){} });
+    const go=document.getElementById('calcGo'),ti=document.getElementById('calcType');
+    if(go&&ti){ go.addEventListener('click',()=>{ if(ti.value.trim()) runText(ti.value.trim()); }); ti.addEventListener('keydown',(e)=>{ if(e.key==='Enter'&&ti.value.trim()) runText(ti.value.trim()); }); }
   })();
 </script>
 </body>
