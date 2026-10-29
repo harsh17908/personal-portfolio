@@ -5,309 +5,209 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Harsh Verma — Software Developer</title>
 <meta name="description" content="Harsh Verma — Software developer focused on C programming, problem solving and clean code. Based in India." />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%2322c55e' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%23fce7f3'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%23be185d' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E" />
 <style>
   :root{
-    --bg:#000;
-    --bg2:#060a06;
-    --card:#0a0f0a;
-    --line:rgba(34,197,94,.16);
-    --line2:rgba(34,197,94,.32);
-    --accent:#22c55e;
-    --accent-dim:#15803d;
-    --text:#eef5ef;
-    --muted:#9db8a4;
-    --faint:#5f7a66;
-    --max:1200px;
+    --bg1:#fff5f7; --bg2:#ffe4ec; --bg3:#ffd6e3;
+    --glass:rgba(255,255,255,.62);
+    --glass-strong:rgba(255,255,255,.78);
+    --stroke:rgba(255,255,255,.75);
+    --line:rgba(190,24,93,.14);
+    --accent:#ec4899; --accent-deep:#be185d; --accent-soft:#fce7f3;
+    --text:#4a1d2e; --muted:#8a5a6d; --faint:#b08a99;
+    --shadow:0 12px 40px rgba(236,72,153,.16);
+    --radius:20px; --max:1120px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    color:var(--text); line-height:1.65; min-height:100vh;
+    background:linear-gradient(135deg,var(--bg1),var(--bg2) 45%,var(--bg3));
+    background-attachment:fixed;
+  }
+  body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(90px);z-index:-1;opacity:.55}
+  body::before{width:480px;height:480px;background:#f9a8d4;top:-120px;left:-120px}
+  body::after{width:520px;height:520px;background:#fecdd3;bottom:-160px;right:-140px}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
-  /* top bar like reference */
-  .topbar{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-  .topbar-inner{max-width:var(--max);margin:auto;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted)}
-  .topbar-inner b{color:var(--text);font-weight:600}
-  .top-right{display:flex;gap:20px;align-items:center}
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:6px}
-  /* hero massive editorial */
-  .hero{padding:48px 0 0;border-bottom:1px solid var(--line)}
-  .hero-kicker{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-bottom:24px;flex-wrap:wrap;gap:12px}
-  .display{font-weight:800;text-transform:uppercase;line-height:.92;letter-spacing:-.03em}
-  .display .row{display:block;overflow:hidden}
-  .display-xl{font-size:clamp(3.5rem,12vw,10rem)}
-  .display-md{font-size:clamp(2rem,6vw,4.5rem);color:transparent;-webkit-text-stroke:1px var(--muted)}
-  .display-sm{font-size:clamp(1.2rem,3.5vw,2rem);color:var(--muted);font-weight:600}
-  .hero-sub{display:grid;grid-template-columns:1fr 1fr;gap:32px;padding:32px 0 40px;align-items:end}
-  .hero-sub p{color:var(--muted);max-width:560px}
-  .hero-sub p strong{color:var(--text)}
-  .hero-tags{font-size:.85rem;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
-  .hero-meta{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:14px 0;font-size:.82rem;color:var(--faint);flex-wrap:wrap;gap:8px}
-  /* sections numbered like #01 */
-  section{padding:72px 0;border-bottom:1px solid var(--line)}
-  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:12px}
-  .num{font-family:monospace;color:var(--accent);font-size:.9rem}
-  h2{font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.03em;line-height:1.05;text-transform:uppercase}
-  h2 .outline{color:transparent;-webkit-text-stroke:1px var(--text)}
-  .sec-desc{color:var(--muted);max-width:680px;margin:12px 0 36px}
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
-  .grid3>div{padding:28px;border-right:1px solid var(--line)}
-  .grid3>div:last-child{border-right:0}
-  .grid3 h3{font-size:1.05rem;margin:12px 0 8px}
-  .grid3 p{color:var(--muted);font-size:.92rem}
-  .tag-num{font-family:monospace;color:var(--faint);font-size:.85rem}
-  /* journey */
-  .journey{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);margin-top:8px}
-  .journey div{padding:28px}
-  .journey div+div{border-left:1px solid var(--line)}
-  .journey small{display:block;color:var(--faint);text-transform:uppercase;letter-spacing:.12em;font-size:.75rem;margin-bottom:8px}
-  .journey b{font-size:1.3rem}
-  /* skills list like Stack 58 */
-  .stack{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:18px 0;border-top:1px solid var(--line)}
-  .stack:first-of-type{border-top:0}
-  .stack h4{font-size:.9rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
-  .stack ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
-  .stack li{border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-size:.85rem;color:var(--muted)}
-  /* path */
-  .path-item{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:28px 0;border-top:1px solid var(--line)}
-  .path-item .when{font-family:monospace;color:var(--faint);font-size:.85rem}
-  .path-item h3{font-size:1.15rem}
-  .path-item .org{color:var(--accent);font-size:.9rem;margin-bottom:8px}
-  .path-item p,.path-item li{color:var(--muted);font-size:.93rem}
-  .path-item ul{margin:12px 0 0 18px}
-  /* results 01-06 */
-  .results{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line)}
-  .results div{padding:22px 24px;border-bottom:1px solid var(--line)}
-  .results div:nth-child(odd){border-right:1px solid var(--line)}
-  .results div:nth-last-child(-n+2){border-bottom:0}
-  .results span{font-family:monospace;color:var(--accent);font-size:.85rem;margin-right:12px}
-  .results p{display:inline;color:var(--muted);font-size:.93rem}
-  /* projects horizontal like reference Scroll */
-  .proj-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(300px,380px);gap:16px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory}
-  .proj{scroll-snap-align:start;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:24px;display:flex;flex-direction:column;min-height:280px}
-  .proj small{font-family:monospace;color:var(--faint);font-size:.8rem}
-  .proj h3{margin:10px 0 8px;font-size:1.1rem}
-  .proj p{color:var(--muted);font-size:.92rem;flex:1}
-  .proj a{margin-top:16px;color:var(--accent);font-weight:600;font-size:.9rem}
-  /* lab */
-  .lab{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line)}
-  .lab a{padding:20px;border-right:1px solid var(--line);font-size:.9rem;color:var(--muted)}
-  .lab a:last-child{border-right:0}
-  .lab a:hover{color:var(--accent);background:var(--bg2)}
-  .lab b{display:block;color:var(--text);margin-bottom:4px}
-  /* contact big */
-  .contact-big{font-size:clamp(2.5rem,7vw,5.5rem);font-weight:800;text-transform:uppercase;line-height:.95;letter-spacing:-.03em;margin:12px 0 24px}
-  .contact-big span{color:transparent;-webkit-text-stroke:1px var(--text)}
-  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:10px;font-weight:700;border:1px solid var(--line2)}
-  .btn-primary{background:var(--accent);color:#03170b;border-color:var(--accent)}
-  .btn-ghost{color:var(--text);background:var(--bg2)}
-  .contact-grid{display:flex;gap:32px;flex-wrap:wrap;margin-top:28px;color:var(--muted);font-size:.95rem}
-  footer{padding:28px 0;color:var(--faint);font-size:.85rem}
-  .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .demo{margin-top:20px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:24px;display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start}
-  .demo-info p{color:var(--muted);font-size:.93rem;margin-top:8px}
-  .calc{background:#000;border:1px solid var(--line2);border-radius:12px;padding:16px;max-width:280px}
-  .calc-history{width:100%;font-family:monospace;font-size:.82rem;color:var(--muted);text-align:right;min-height:20px;margin-bottom:6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-  .calc-display{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:8px;color:var(--text);font-family:monospace;font-size:1.4rem;text-align:right;padding:12px;margin-bottom:12px;min-height:56px;overflow:hidden}
+  .glass{background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow)}
+  /* nav */
+  nav{position:sticky;top:16px;z-index:50;margin:16px auto;max-width:var(--max)}
+  .nav-inner{margin:0 24px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--glass);backdrop-filter:blur(18px);border:1px solid var(--stroke);border-radius:999px;box-shadow:var(--shadow)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .mark{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));display:grid;place-items:center;color:#fff;font-weight:800}
+  .brand-name{font-weight:800;letter-spacing:-.02em}
+  .brand-role{display:block;font-size:.76rem;color:var(--muted);font-weight:500}
+  .links{display:flex;gap:22px;align-items:center}
+  .links a{color:var(--muted);font-size:.92rem;font-weight:600}
+  .links a:hover{color:var(--accent-deep)}
+  .nav-cta{background:var(--text);color:#fff!important;padding:9px 18px;border-radius:999px;font-size:.88rem}
+  .menu-btn{display:none;background:rgba(255,255,255,.7);border:1px solid var(--stroke);border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--text)}
+  /* hero */
+  .hero{padding:40px 0 8px}
+  .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch;margin-top:20px}
+  .hero-card{padding:36px}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);border:1px solid var(--line);padding:7px 14px;border-radius:999px;margin-bottom:18px}
+  .pulse{width:8px;height:8px;border-radius:50%;background:#22c55e}
+  h1{font-size:clamp(2.4rem,5.5vw,3.6rem);line-height:1.02;letter-spacing:-.04em;margin-bottom:14px}
+  h1 span{background:linear-gradient(90deg,var(--accent),var(--accent-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{color:var(--muted);font-size:1.06rem;max-width:540px;margin-bottom:24px}
+  .lede strong{color:var(--text)}
+  .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:14px;font-weight:700;border:1px solid transparent;transition:.15s;font-size:.95rem}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;box-shadow:0 8px 24px rgba(236,72,153,.35)}
+  .btn-ghost{background:rgba(255,255,255,.7);border-color:var(--stroke);color:var(--text)}
+  .meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+  .meta a{color:var(--accent-deep);font-weight:600}
+  .side{display:flex;flex-direction:column;gap:16px}
+  .code{padding:20px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;background:rgba(74,29,46,.92);color:#ffd6e3;border-radius:16px;line-height:1.6}
+  .code .c{color:#f9a8d4}
+  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .stats div{background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--stroke);border-radius:14px;padding:14px 8px;text-align:center;box-shadow:var(--shadow)}
+  .stats b{display:block;font-size:1.15rem}
+  .stats span{font-size:.78rem;color:var(--muted)}
+  /* sections */
+  section{padding:36px 0}
+  .panel{padding:32px}
+  .eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:8px}
+  h2{font-size:clamp(1.6rem,3.5vw,2.3rem);letter-spacing:-.03em;margin-bottom:6px}
+  .sec-desc{color:var(--muted);max-width:640px;margin:8px 0 24px}
+  .grid{display:grid;gap:14px}
+  .grid-2{grid-template-columns:1fr 1fr}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .card{background:rgba(255,255,255,.55);border:1px solid var(--stroke);border-radius:16px;padding:22px;backdrop-filter:blur(12px)}
+  .card h3{margin-bottom:6px}
+  .card p{color:var(--muted);font-size:.93rem}
+  .check-list{list-style:none;margin-top:12px;display:grid;gap:10px}
+  .check-list li{display:flex;gap:10px;color:var(--muted);font-size:.93rem}
+  .check{flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--line);display:grid;place-items:center;color:var(--accent-deep);font-size:.8rem;font-weight:800}
+  .level{font-size:.75rem;font-weight:800;color:var(--accent-deep);background:var(--accent-soft);border:1px solid var(--line);padding:3px 10px;border-radius:999px}
+  .bar{background:rgba(190,24,93,.12);border-radius:999px;height:7px;overflow:hidden;margin-top:12px}
+  .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-deep));border-radius:999px}
+  .tag{display:inline-block;font-size:.78rem;background:rgba(255,255,255,.7);border:1px solid var(--line);padding:4px 11px;border-radius:999px;color:var(--muted);margin:10px 6px 0 0}
+  .proj{display:flex;flex-direction:column}
+  .proj p{flex:1}
+  .proj-foot{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:flex;gap:16px}
+  .link{color:var(--accent-deep);font-weight:700;font-size:.9rem}
+  /* demos */
+  .demo{margin-top:16px;padding:24px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
+  .calc{background:rgba(255,255,255,.75);border:1px solid var(--stroke);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+  .calc-history{font-family:monospace;font-size:.82rem;color:var(--muted);text-align:right;min-height:20px;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .calc-display{background:#fff;border:1px solid var(--line);border-radius:12px;font-family:monospace;font-size:1.4rem;text-align:right;padding:12px;margin-bottom:12px;min-height:56px;overflow:hidden;color:var(--text)}
   .calc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  .calc-keys button{background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:12px 0;font-size:1rem;cursor:pointer}
+  .calc-keys button{background:rgba(255,255,255,.85);border:1px solid var(--line);border-radius:12px;padding:12px 0;font-size:1rem;cursor:pointer;color:var(--text);font-weight:600}
   .calc-keys button:hover{border-color:var(--accent)}
-  .calc-keys button.op{color:var(--accent);border-color:var(--line2)}
-  .calc-keys button.eq{background:var(--accent);color:#03170b;font-weight:700;border-color:var(--accent)}
-  @media(max-width:900px){
-    .hero-sub,.journey,.results{grid-template-columns:1fr}
-    .journey div+div{border-left:0;border-top:1px solid var(--line)}
-    .grid3{grid-template-columns:1fr}
-    .grid3>div{border-right:0;border-bottom:1px solid var(--line)}
-    .grid3>div:last-child{border-bottom:0}
-    .lab{grid-template-columns:1fr 1fr}
-    .path-item{grid-template-columns:1fr}
-    .stack{grid-template-columns:1fr}
-  }
+  .calc-keys button.op{color:var(--accent-deep);font-weight:800}
+  .calc-keys button.eq{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;border:0;font-weight:800}
+  .grade-input{width:100%;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;font-family:monospace;font-size:1.1rem;text-align:center;margin-bottom:10px;color:var(--text)}
+  footer{padding:24px 0 32px;color:var(--muted);font-size:.87rem}
+  .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  @media(max-width:900px){.hero-grid,.grid-2,.grid-3,.demo{grid-template-columns:1fr}}
+  @media(max-width:640px){.links{display:none;position:absolute;top:100%;left:24px;right:24px;background:var(--glass-strong);flex-direction:column;align-items:stretch;padding:14px 20px 18px;border:1px solid var(--stroke);border-radius:16px;margin-top:8px}.links.open{display:flex}.menu-btn{display:block}nav{position:relative}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="topbar-inner">
-    <div><b>Harsh Verma</b> — Portfolio ©2026</div>
-    <div class="top-right"><span>000</span><span><span class="dot"></span><span id="clock">--:--</span> IST</span></div>
+<nav aria-label="Primary">
+  <div class="nav-inner">
+    <div class="brand"><div class="mark">H</div><div><span class="brand-name">Harsh Verma</span><span class="brand-role">Software Developer — C</span></div></div>
+    <button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.links').classList.toggle('open')">Menu</button>
+    <div class="links"><a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#contact">Contact</a><a class="nav-cta" href="mailto:helllo.harsh.tech@gmail.com">Get in touch</a></div>
   </div>
-</div>
+</nav>
 
-<div class="wrap">
+<div class="wrap" id="main">
 <header class="hero">
-  <div class="hero-kicker"><span>Software Developer</span><span>C · Logic · Git</span><span>India</span></div>
-  <div class="display">
-    <span class="row display-xl">Harsh</span>
-    <span class="row display-xl">Verma</span>
-    <span class="row display-md">India</span>
-    <span class="row display-sm"> disciplined fundamentals — practical programs</span>
+  <div class="hero-grid">
+    <div class="hero-card glass">
+      <div class="pill"><span class="pulse"></span> Available for internships and junior roles · <span id="clock">--:--</span> IST</div>
+      <h1>Harsh Verma.<br /><span>Building reliable software in C.</span></h1>
+      <p class="lede">I am a software developer focused on <strong>C programming, problem solving and clean code</strong>. Structured practice — variables to functions — turned into small, tested programs.</p>
+      <div class="btn-row"><a class="btn btn-primary" href="#projects">View selected work</a><a class="btn btn-ghost" href="https://github.com/harsh17908" target="_blank" rel="noopener">GitHub profile</a></div>
+      <div class="meta"><span>helllo.harsh.tech@gmail.com</span><a href="https://github.com/harsh17908" target="_blank" rel="noopener">github.com/harsh17908</a><span>India</span></div>
+    </div>
+    <div class="side">
+      <div class="code"><span class="c">// harsh.c</span><br />#include &lt;stdio.h&gt;<br /><br />int main(void) {<br />&nbsp;&nbsp;printf("Hello, I'm Harsh.\n");<br />&nbsp;&nbsp;printf("C Programming\n");<br />&nbsp;&nbsp;return 0;<br />}</div>
+      <div class="stats"><div><b>3+</b><span>Programs built</span></div><div><b>C</b><span>Primary focus</span></div><div><b>Git</b><span>Version control</span></div></div>
+    </div>
   </div>
-  <div class="hero-sub">
-    <p><strong>Building small, reliable programs.</strong> I study C systematically — from variables to functions — and ship each concept as working code. From logic to tested tools.</p>
-    <div><div class="hero-tags">Logic · Problem Solving · Clean Code</div>
-    <p style="margin-top:12px;font-size:.9rem">Currently focused on core C, structured practice and Git workflow. Open to internships and junior roles.</p></div>
-  </div>
-  <div class="hero-meta"><span>Portfolio — 2026</span><span>Software and logic serving real practice</span><span><a href="#projects" style="color:var(--accent)">Selected work ↓</a></span></div>
 </header>
 
-<section id="journey">
-  <div class="sec-head"><span class="num">[ Journey ]</span></div>
-  <h2>From practice <span class="outline">to programs</span></h2>
-  <p class="sec-desc">Two ends of the same drive: learning concepts thoroughly, then turning them into tools that run.</p>
-  <div class="journey">
-    <div><small>From</small><b>Chapter 01 — Variables</b><p style="color:var(--muted);margin-top:8px">Started with operators, conditionals and loops. Daily practice sets, edge cases, debugging step by step.</p></div>
-    <div><small>Now</small><b>Functions &amp; structured logic</b><p style="color:var(--muted);margin-top:8px">Writing small tested programs, clean commits, documenting progress on GitHub.</p></div>
+<section id="about"><div class="panel glass">
+  <div class="eyebrow">About</div><h2>Disciplined fundamentals, practical output</h2>
+  <p class="sec-desc">Early in my career and deliberate about basics. I study C systematically and document progress through working code.</p>
+  <div class="grid grid-2">
+    <div class="card"><h3>Background</h3><p>Beginner developer working through C — variables, operators, conditionals, loops, functions — with regular practice sets. Readable code, small functions, edge cases tested.</p></div>
+    <div class="card"><h3>Current focus</h3><ul class="check-list"><li><span class="check">✓</span> Core C: control flow, arrays, strings, functions</li><li><span class="check">✓</span> Logic building and clean structure</li><li><span class="check">✓</span> Git workflow: branches, commits, pull requests</li><li><span class="check">✓</span> Building in public, weekly progress</li></ul></div>
   </div>
-</section>
+</div></section>
 
-<section id="focus">
-  <div class="sec-head"><span class="num">#01 · C</span><span class="num">#02 · Logic</span><span class="num">#03 · Workflow</span></div>
-  <h2>What I focus <span class="outline">on</span></h2>
-  <div class="grid3" style="margin-top:28px">
-    <div><div class="tag-num">#01 · C</div><h3>Core language</h3><p>Control flow, arrays, strings and functions. Readable code, small functions, validated input.</p></div>
-    <div><div class="tag-num">#02 · Logic</div><h3>Problem solving</h3><p>Decomposition, practice sets chapter 1–3, testing boundaries before calling it done.</p></div>
-    <div><div class="tag-num">#03 · Workflow</div><h3>Git discipline</h3><p>Clear commits, branches, Pages deployment. Building in public, week after week.</p></div>
-  </div>
-</section>
-
-<section id="skills">
-  <div class="sec-head"><span class="num">Skills</span></div>
-  <h2>Stack</h2>
+<section id="skills"><div class="panel glass">
+  <div class="eyebrow">Skills</div><h2>What I work with</h2>
   <p class="sec-desc">Honest snapshot of where I am today.</p>
-  <div>
-    <div class="stack"><h4>Language</h4><ul><li>C — variables to functions</li><li>Input validation</li><li>Control flow</li></ul></div>
-    <div class="stack"><h4>Practices</h4><ul><li>Problem decomposition</li><li>Edge-case testing</li><li>Clean structure</li></ul></div>
-    <div class="stack"><h4>Tools</h4><ul><li>Git &amp; GitHub</li><li>Pages deployment</li><li>VS Code</li></ul></div>
-    <div class="stack"><h4>Learning</h4><ul><li>Python basics</li><li>JavaScript basics</li></ul></div>
+  <div class="grid grid-3">
+    <div class="card"><div style="display:flex;justify-content:space-between;align-items:baseline"><h3>C Programming</h3><span class="level">Proficient</span></div><p>Variables, operators, conditionals, loops, functions.</p><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;align-items:baseline"><h3>Problem Solving</h3><span class="level">Proficient</span></div><p>Chapter-wise sets, edge cases, step-by-step debugging.</p><div class="bar"><div class="fill" style="width:68%"></div></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;align-items:baseline"><h3>Git &amp; GitHub</h3><span class="level">Familiar</span></div><p>Commits, repos, Pages deployment, clear messages.</p><div class="bar"><div class="fill" style="width:60%"></div></div></div>
   </div>
-</section>
-
-<section id="path">
-  <div class="sec-head"><span class="num">Path</span></div>
-  <h2>Learning <span class="outline">path</span></h2>
-  <p class="sec-desc">Self-directed, structured, public.</p>
-  <div>
-    <div class="path-item"><div class="when">#1 · Present</div><div><h3>Self-directed C study</h3><div class="org">Independent — India</div><p>Systematic work through variables, operators, conditionals, loops, functions. Each topic ends in a runnable program.</p><ul><li>Daily practice sets with input validation</li><li>Clean commits and progress on GitHub</li></ul></div></div>
-    <div class="path-item"><div class="when">#2 · 2026</div><div><h3>Console programs</h3><div class="org">Practice builds</div><p>Calculator and grade evaluator — menu input, range checks, switch and if-else logic.</p></div></div>
-    <div class="path-item"><div class="when">#3 · 2026</div><div><h3>Portfolio launch</h3><div class="org">This site</div><p>Single-file responsive layout, green-black system, deployed via Pages. Iterated from feedback.</p></div></div>
-  </div>
-</section>
-
-<section id="results">
-  <div class="sec-head"><span class="num">Results</span></div>
-  <h2>Impact</h2>
-  <div class="results" style="margin-top:28px">
-    <div><span>01</span><p>Calculator handling invalid input without crashing</p></div>
-    <div><span>02</span><p>Grade logic mapping marks to grades correctly</p></div>
-    <div><span>03</span><p>Portfolio deployed and loading under a second</p></div>
-    <div><span>04</span><p>Git history showing steady, readable commits</p></div>
-    <div><span>05</span><p>Practice streak across chapters 1–3</p></div>
-    <div><span>06</span><p>Contact-ready profile with live links</p></div>
-  </div>
-</section>
+</div></section>
 
 <section id="projects">
-  <div class="sec-head"><span class="num">Selected projects</span><span class="num">Scroll →</span></div>
-  <h2>Work</h2>
+  <div class="panel glass" style="margin-bottom:16px">
+  <div class="eyebrow">Selected work</div><h2>Projects</h2>
   <p class="sec-desc">Small, complete, honest. Each compiles, runs and handles bad input.</p>
-  <div class="proj-row">
-    <div class="proj"><small>01 — Console + Live</small><h3>Calculator</h3><p>Menu-driven utility with add, subtract, multiply, divide, modulus and power. Validated input, divide-by-zero guard. Live web version below.</p><div style="margin-top:16px;display:flex;gap:16px"><a href="https://github.com/harsh17908/c-calculator" target="_blank" rel="noopener">View repository →</a><a href="https://harsh17908.github.io/c-calculator/" target="_blank" rel="noopener">Try live →</a></div></div>
-    <div class="proj"><small>02 — Console + Live</small><h3>Grade evaluator</h3><p>Reads marks 0–100, validates range, returns grade. Live web version below.</p><div style="margin-top:16px;display:flex;gap:16px"><a href="https://github.com/harsh17908/grade-evaluator" target="_blank" rel="noopener">View repository →</a><a href="https://harsh17908.github.io/grade-evaluator/" target="_blank" rel="noopener">Try live →</a></div></div>
-    <div class="proj"><small>03 — Live</small><h3>This portfolio</h3><p>Editorial green-black layout inspired by minimal portfolios. Single file, no dependencies, Pages-hosted.</p><a href="#main" id="main">You are here →</a></div>
+  <div class="grid grid-3">
+    <div class="card proj"><small style="font-family:monospace;color:var(--accent-deep)">01 — Console + Live</small><h3>Calculator</h3><p>Add, subtract, multiply, divide, modulus and power with validation and divide-by-zero guard.</p><div><span class="tag">C</span><span class="tag">Logic</span><span class="tag">Validation</span></div><div class="proj-foot"><a class="link" href="https://github.com/harsh17908/c-calculator" target="_blank" rel="noopener">View repository →</a><a class="link" href="https://harsh17908.github.io/c-calculator/" target="_blank" rel="noopener">Try live →</a></div></div>
+    <div class="card proj"><small style="font-family:monospace;color:var(--accent-deep)">02 — Console + Live</small><h3>Grade evaluator</h3><p>Reads marks 0–100, validates range, returns grade. Live demo below.</p><div><span class="tag">C</span><span class="tag">Conditionals</span><span class="tag">Validation</span></div><div class="proj-foot"><a class="link" href="https://github.com/harsh17908/grade-evaluator" target="_blank" rel="noopener">View repository →</a><a class="link" href="https://harsh17908.github.io/grade-evaluator/" target="_blank" rel="noopener">Try live →</a></div></div>
+    <div class="card proj"><small style="font-family:monospace;color:var(--accent-deep)">03 — Live</small><h3>This portfolio</h3><p>Glass soft-pink layout, single file, no dependencies, hosted on Pages.</p><div><span class="tag">Portfolio</span><span class="tag">Glass</span><span class="tag">Pages</span></div><div class="proj-foot"><a class="link" href="#main">You are here →</a></div></div>
   </div>
-  <div class="demo">
-    <div class="demo-info"><small style="font-family:monospace;color:var(--accent)">Live demo — 01 Calculator</small><h3 style="margin:8px 0">Try it here</h3><p>Mirrors the console version. Built for quick testing without leaving the page.</p><p style="margin-top:12px"><a href="https://github.com/harsh17908/c-calculator" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Open c-calculator source →</a> · <a href="https://harsh17908.github.io/c-calculator/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Standalone live →</a></p></div>
-    <div class="calc" aria-label="Calculator demo"><div class="calc-history" id="calcHistory"></div><div class="calc-display" id="calcDisplay">0</div><div class="calc-keys"><button data-k="C">C</button><button data-k="back">Back</button><button data-k="%" class="op">%</button><button data-k="/" class="op">/</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="*" class="op">*</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="-" class="op">-</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="+" class="op">+</button><button data-k="0">0</button><button data-k=".">.</button><button data-k="=" class="eq">=</button><button data-k="neg">+/-</button></div></div>
   </div>
-  <div class="demo">
-    <div class="demo-info"><small style="font-family:monospace;color:var(--accent)">Live demo — 02 Grade evaluator</small><h3 style="margin:8px 0">Try it here</h3><p>Enter marks 0–100, get grade instantly with validation. Mirrors the console version.</p><p style="margin-top:12px"><a href="https://github.com/harsh17908/grade-evaluator" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Open grade-evaluator source →</a> · <a href="https://harsh17908.github.io/grade-evaluator/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Standalone live →</a></p></div>
-    <div class="calc" aria-label="Grade demo"><div class="calc-history" id="gradeHist"></div><div class="calc-display" id="gradeOut">Enter marks, press Check</div><input id="gradeMarks" type="number" min="0" max="100" step="0.1" placeholder="e.g. 82" aria-label="Marks 0 to 100" style="width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:8px;color:var(--text);font-family:monospace;font-size:1.1rem;text-align:center;padding:12px;margin-bottom:10px" /><div class="calc-keys" style="grid-template-columns:1fr 1fr"><button id="gradeGo" class="eq">Check grade</button><button id="gradeClear">Clear</button></div></div>
+  <div class="demo glass">
+    <div><small style="font-family:monospace;color:var(--accent-deep)">Live demo — 01 Calculator</small><h3 style="margin:8px 0">Try it here</h3><p style="color:var(--muted);font-size:.93rem">Calculations stay visible: expression on top, result below.</p><p style="margin-top:12px"><a class="link" href="https://github.com/harsh17908/c-calculator" target="_blank" rel="noopener">Open source →</a> · <a class="link" href="https://harsh17908.github.io/c-calculator/" target="_blank" rel="noopener">Standalone →</a></p></div>
+    <div class="calc" aria-label="Calculator demo"><div class="calc-history" id="calcHistory"></div><div class="calc-display" id="calcDisplay" style="background:#fff">0</div><div class="calc-keys"><button data-k="C">C</button><button data-k="back">Back</button><button data-k="%" class="op">%</button><button data-k="/" class="op">/</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="*" class="op">*</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="-" class="op">-</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="+" class="op">+</button><button data-k="0">0</button><button data-k=".">.</button><button data-k="=" class="eq">=</button><button data-k="neg">+/-</button></div></div>
   </div>
-</section>
-
-<section id="lab">
-  <div class="sec-head"><span class="num">Lab</span></div>
-  <h2>The site, <span class="outline">taken apart</span></h2>
-  <p class="sec-desc">04 details that keep it fast and readable.</p>
-  <div class="lab" style="margin-top:28px">
-    <a href="#main"><b>StickyBar</b>Top bar with live clock →</a>
-    <a href="#focus"><b>NumberedGrid</b>Editorial 3-column system →</a>
-    <a href="#projects"><b>ScrollRow</b>Horizontal project rail →</a>
-    <a href="#contact"><b>ContactBlock</b>Single action, no noise →</a>
+  <div class="demo glass" style="margin-top:16px">
+    <div><small style="font-family:monospace;color:var(--accent-deep)">Live demo — 02 Grade evaluator</small><h3 style="margin:8px 0">Try it here</h3><p style="color:var(--muted);font-size:.93rem">Enter 0–100, get grade instantly with validation.</p><p style="margin-top:12px"><a class="link" href="https://github.com/harsh17908/grade-evaluator" target="_blank" rel="noopener">Open source →</a> · <a class="link" href="https://harsh17908.github.io/grade-evaluator/" target="_blank" rel="noopener">Standalone →</a></p></div>
+    <div class="calc" aria-label="Grade demo"><div class="calc-history" id="gradeHist"></div><div class="calc-display" id="gradeOut">Enter marks, press Check</div><input id="gradeMarks" class="grade-input" type="number" min="0" max="100" step="0.1" placeholder="e.g. 82" aria-label="Marks 0 to 100" /><div class="calc-keys" style="grid-template-columns:1fr 1fr"><button id="gradeGo" class="eq">Check grade</button><button id="gradeClear">Clear</button></div></div>
   </div>
 </section>
 
-<section id="contact">
-  <div class="eyebrow" style="font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)">Let's work together</div>
-  <div class="contact-big">Let's stay<br/><span>in touch</span></div>
-  <p class="sec-desc">Open to internships, mentorship and collaboration. I reply within one business day.</p>
-  <div style="display:flex;gap:12px;flex-wrap:wrap">
-    <a class="btn btn-primary" href="mailto:helllo.harsh.tech@gmail.com">helllo.harsh.tech@gmail.com</a>
-    <a class="btn btn-ghost" href="https://github.com/harsh17908" target="_blank" rel="noopener">GitHub — harsh17908</a>
-  </div>
-  <div class="contact-grid"><span>Base — India</span><span>Response — within 24h</span><span>Status — available</span></div>
-</section>
+<section id="contact"><div class="panel glass" style="text-align:center">
+  <div class="eyebrow">Contact</div><h2>Let's work together</h2>
+  <p class="sec-desc" style="margin:8px auto 22px">Open to internships, mentorship and collaboration. I reply within one business day.</p>
+  <div class="btn-row" style="justify-content:center;display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-primary" href="mailto:helllo.harsh.tech@gmail.com">helllo.harsh.tech@gmail.com</a><a class="btn btn-ghost" href="https://github.com/harsh17908" target="_blank" rel="noopener">GitHub</a></div>
+</div></section>
 </div>
 
-<footer><div class="wrap foot"><span>© 2026 Harsh Verma</span><span>Green-black edition · Single file · Deployed on Pages</span></div></footer>
+<footer><div class="wrap foot"><span>© 2026 Harsh Verma</span><span>Glass light-pink edition · Single file · Pages</span></div></footer>
 
 <script>
-  function tick(){
-    try{
-      const t=new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit'});
-      document.getElementById('clock').textContent=t;
-    }catch(e){}
-  }
+  function tick(){try{const t=new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit'});document.getElementById('clock').textContent=t;}catch(e){}}
   tick(); setInterval(tick,30000);
+  document.querySelectorAll('.links a').forEach(a=>{a.addEventListener('click',()=>document.querySelector('.links').classList.remove('open'));});
   (function(){
-    const d=document.getElementById('calcDisplay');
-    const h=document.getElementById('calcHistory');
+    const d=document.getElementById('calcDisplay'),h=document.getElementById('calcHistory');
     if(!d) return;
-    let cur='0', prev=null, op=null, fresh=true;
-    function show(v){ d.textContent=v; }
-    function showHist(v){ if(h) h.textContent=v; }
-    function input(n){
-      if(n==='.'){ if(fresh){cur='0.';fresh=false;} else if(!cur.includes('.')) cur+=n; show(cur); return; }
-      if(fresh){cur=n;fresh=false;} else {cur=(cur==='0')?n:cur+n;}
-      show(cur);
-    }
-    function calc(a,b,o){
-      a=parseFloat(a); b=parseFloat(b);
-      if(o==='+') return a+b;
-      if(o==='-') return a-b;
-      if(o==='*') return a*b;
-      if(o==='/'){ if(b===0) return 'Error'; return a/b; }
-      if(o==='%'){ if(b===0) return 'Error'; return a%b; }
-      return b;
-    }
-    const calcBox=d.closest('.calc');
-    calcBox.querySelectorAll('.calc-keys button').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const k=btn.getAttribute('data-k');
-        if(!k) return;
-        if(k==='C'){cur='0';prev=null;op=null;fresh=true;show(cur);showHist('');return;}
-        if(k==='back'){cur=cur.length>1?cur.slice(0,-1):'0';show(cur);return;}
-        if(k==='neg'){if(cur!=='0'&&cur!=='Error'){cur=cur.startsWith('-')?cur.slice(1):'-'+cur;show(cur);}return;}
-        if(k==='='){if(op&&prev!==null){showHist(prev+' '+op+' '+cur+' =');const r=calc(prev,cur,op);cur=(typeof r==='number')?(Math.round(r*1e10)/1e10).toString():r;prev=null;op=null;fresh=true;show(cur);}return;}
-        if(['+','-','*','/','%'].includes(k)){if(op&&prev!==null&&!fresh){const r=calc(prev,cur,op);cur=(typeof r==='number')?(Math.round(r*1e10)/1e10).toString():r;show(cur);}prev=cur;op=k;fresh=true;showHist(prev+' '+op);return;}
-        input(k);
-      });
-    });
+    let cur='0',prev=null,op=null,fresh=true;
+    function show(v){d.textContent=v;} function showH(v){if(h)h.textContent=v;}
+    function input(n){if(n==='.'){if(fresh){cur='0.';fresh=false;}else if(!cur.includes('.'))cur+=n;show(cur);return;}if(fresh){cur=n;fresh=false;}else{cur=(cur==='0')?n:cur+n;}show(cur);}
+    function calc(a,b,o){a=parseFloat(a);b=parseFloat(b);if(o==='+')return a+b;if(o==='-')return a-b;if(o==='*')return a*b;if(o==='/'){if(b===0)return 'Error';return a/b;}if(o==='%'){if(b===0)return 'Error';return a%b;}return b;}
+    const box=d.closest('.calc');
+    box.querySelectorAll('.calc-keys button').forEach(btn=>{btn.addEventListener('click',()=>{
+      const k=btn.getAttribute('data-k'); if(!k) return;
+      if(k==='C'){cur='0';prev=null;op=null;fresh=true;show(cur);showH('');return;}
+      if(k==='back'){cur=cur.length>1?cur.slice(0,-1):'0';show(cur);return;}
+      if(k==='neg'){if(cur!=='0'&&cur!=='Error'){cur=cur.startsWith('-')?cur.slice(1):'-'+cur;show(cur);}return;}
+      if(k==='='){if(op&&prev!==null){showH(prev+' '+op+' '+cur+' =');const r=calc(prev,cur,op);cur=(typeof r==='number')?(Math.round(r*1e10)/1e10).toString():r;prev=null;op=null;fresh=true;show(cur);}return;}
+      if(['+','-','*','/','%'].includes(k)){if(op&&prev!==null&&!fresh){const r=calc(prev,cur,op);cur=(typeof r==='number')?(Math.round(r*1e10)/1e10).toString():r;show(cur);}prev=cur;op=k;fresh=true;showH(prev+' '+op);return;}
+      input(k);
+    });});
   })();
   (function(){
     const out=document.getElementById('gradeOut'),hist=document.getElementById('gradeHist'),inp=document.getElementById('gradeMarks');
     if(!out||!inp) return;
     function gradeFor(x){if(x>=90)return'A+';if(x>=80)return'A';if(x>=70)return'B';if(x>=60)return'C';if(x>=50)return'D';if(x>=33)return'E (Pass)';return'F (Fail)';}
-    function run(){
-      const v=parseFloat((inp.value||'').trim());
-      if(isNaN(v)){out.textContent='Enter a number 0-100';if(hist)hist.textContent='';return;}
-      if(v<0||v>100){out.textContent='Error: 0-100 only';if(hist)hist.textContent='Input: '+inp.value;return;}
-      const g=gradeFor(v);
-      if(hist)hist.textContent='Marks: '+v;
-      out.textContent='Grade: '+g+(v<33?' — keep practicing':' — well done');
-    }
+    function run(){const v=parseFloat((inp.value||'').trim());if(isNaN(v)){out.textContent='Enter a number 0-100';if(hist)hist.textContent='';return;}if(v<0||v>100){out.textContent='Error: 0-100 only';if(hist)hist.textContent='Input: '+inp.value;return;}const g=gradeFor(v);if(hist)hist.textContent='Marks: '+v;out.textContent='Grade: '+g+(v<33?' — keep practicing':' — well done');}
     document.getElementById('gradeGo').addEventListener('click',run);
     document.getElementById('gradeClear').addEventListener('click',()=>{inp.value='';out.textContent='Enter marks, press Check';if(hist)hist.textContent='';inp.focus();});
     inp.addEventListener('keydown',(e)=>{if(e.key==='Enter')run();});
