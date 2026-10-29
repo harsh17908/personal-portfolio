@@ -293,12 +293,13 @@
     window.__calcVoice = function(expr){
       const cBtn=document.querySelector('.calc-keys button[data-k="C"]');
       if(cBtn) cBtn.click();
+      if(expr==='C') return;
       const map={};
       document.querySelectorAll('.calc-keys button').forEach(b=>{map[b.getAttribute('data-k')]=b;});
       for(const ch of expr){
-        if(ch>='0'&&ch<='9'){map[ch].click();}
-        else if(ch==='.'){map['.'].click();}
-        else if(['+','-','*','/','%'].includes(ch)){map[ch].click();}
+        if(ch>='0'&&ch<='9'){if(map[ch])map[ch].click();}
+        else if(ch==='.'){if(map['.'])map['.'].click();}
+        else if(['+','-','*','/','%'].includes(ch)){if(map[ch])map[ch].click();}
       }
       if(map['=']) map['='].click();
     };
@@ -309,11 +310,12 @@
     if(!btn) return;
     const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
     if(!SR){ if(status) status.textContent='Voice not supported in this browser — use Chrome.'; btn.disabled=true; return; }
-    const words={zero:'0',one:'1',two:'2',three:'3',four:'4',five:'5',six:'6',seven:'7',eight:'8',nine:'9',ten:'10',eleven:'11',twelve:'12',thirteen:'13',fourteen:'14',fifteen:'15',sixteen:'16',seventeen:'17',eighteen:'18',nineteen:'19',twenty:'20',point:'.',dot:'.'};
+    const words={zero:'0',one:'1',two:'2',to:'2',too:'2',three:'3',four:'4',for:'4',five:'5',six:'6',seven:'7',eight:'8',nine:'9',ten:'10',eleven:'11',twelve:'12',thirteen:'13',fourteen:'14',fifteen:'15',sixteen:'16',seventeen:'17',eighteen:'18',nineteen:'19',twenty:'20',point:'.',dot:'.'};
     function parse(t){
-      t=t.toLowerCase().replace(/divided by/g,'/').replace(/multiply by/g,'*').replace(/multiplied by/g,'*').replace(/plus/g,'+').replace(/add/g,'+').replace(/minus/g,'-').replace(/subtract/g,'-').replace(/times|x/g,'*').replace(/multiply/g,'*').replace(/divide/g,'/').replace(/over/g,'/').replace(/mod/g,'%').replace(/percent/g,'%').replace(/equals|equal|calculate|result/g,'=').replace(/clear/g,'C');
-      Object.keys(words).forEach(w=>{ t=t.replace(new RegExp('\\b'+w+'\\b','g'),words[w]); });
-      t=t.replace(/[^0-9+\-*/.%()= ]/g,'');
+      t=' '+t.toLowerCase()+' ';
+      Object.keys(words).forEach(w=>{ t=t.replace(new RegExp('\\b'+w+'\\b','g'),' '+words[w]+' '); });
+      t=t.replace(/\bdivided by\b/g,'/').replace(/\bmultiply by\b/g,'*').replace(/\bmultiplied by\b/g,'*').replace(/\bplus\b/g,'+').replace(/\badd\b/g,'+').replace(/\bminus\b/g,'-').replace(/\bsubtract\b/g,'-').replace(/\btimes\b/g,'*').replace(/\bmultiply\b/g,'*').replace(/\bdivide\b/g,'/').replace(/\bover\b/g,'/').replace(/\bmod\b/g,'%').replace(/\bpercent\b|\bpercentage\b/g,'%').replace(/\bequals?\b|\bcalculate\b|\bresult\b/g,'=').replace(/\bclear\b/g,'C');
+      t=t.replace(/[^0-9+\-*/.%()= C]/g,' ');
       return t.replace(/\s+/g,'');
     }
     const rec=new SR();
@@ -325,7 +327,7 @@
       const transcript=e.results[0][0].transcript;
       if(status)status.textContent='Heard: '+transcript;
       const expr=parse(transcript);
-      if(!expr||!/\\d/.test(expr)){if(status)status.textContent='Could not understand: '+transcript;return;}
+      if(!expr||!/[0-9]/.test(expr)){if(status)status.textContent='Could not understand: '+transcript+' — try e.g. five plus three';return;}
       if(window.__calcVoice) window.__calcVoice(expr);
       if(status)status.textContent+=' → '+expr;
     };
