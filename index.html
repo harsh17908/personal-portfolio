@@ -108,6 +108,7 @@
   .demo{margin-top:20px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:24px;display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start}
   .demo-info p{color:var(--muted);font-size:.93rem;margin-top:8px}
   .calc{background:#000;border:1px solid var(--line2);border-radius:12px;padding:16px;max-width:280px}
+  .calc-history{width:100%;font-family:monospace;font-size:.82rem;color:var(--muted);text-align:right;min-height:20px;margin-bottom:6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
   .calc-display{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:8px;color:var(--text);font-family:monospace;font-size:1.4rem;text-align:right;padding:12px;margin-bottom:12px;min-height:56px;overflow:hidden}
   .calc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
   .calc-keys button{background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:12px 0;font-size:1rem;cursor:pointer}
@@ -218,7 +219,7 @@
   </div>
   <div class="demo">
     <div class="demo-info"><small style="font-family:monospace;color:var(--accent)">Live demo — 01 Calculator</small><h3 style="margin:8px 0">Try it here</h3><p>Mirrors the console version. Built for quick testing without leaving the page.</p><p style="margin-top:12px"><a href="https://github.com/harsh17908/c-calculator" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Open c-calculator source →</a> · <a href="https://harsh17908.github.io/c-calculator/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Standalone live →</a></p></div>
-    <div class="calc" aria-label="Calculator demo"><div class="calc-display" id="calcDisplay">0</div><div class="calc-keys"><button data-k="C">C</button><button data-k="back">Back</button><button data-k="%" class="op">%</button><button data-k="/" class="op">/</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="*" class="op">*</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="-" class="op">-</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="+" class="op">+</button><button data-k="0">0</button><button data-k=".">.</button><button data-k="=" class="eq">=</button><button data-k="neg">+/-</button></div></div>
+    <div class="calc" aria-label="Calculator demo"><div class="calc-history" id="calcHistory"></div><div class="calc-display" id="calcDisplay">0</div><div class="calc-keys"><button data-k="C">C</button><button data-k="back">Back</button><button data-k="%" class="op">%</button><button data-k="/" class="op">/</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="*" class="op">*</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="-" class="op">-</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="+" class="op">+</button><button data-k="0">0</button><button data-k=".">.</button><button data-k="=" class="eq">=</button><button data-k="neg">+/-</button></div></div>
   </div>
 </section>
 
@@ -258,9 +259,11 @@
   tick(); setInterval(tick,30000);
   (function(){
     const d=document.getElementById('calcDisplay');
+    const h=document.getElementById('calcHistory');
     if(!d) return;
     let cur='0', prev=null, op=null, fresh=true;
     function show(v){ d.textContent=v; }
+    function showHist(v){ if(h) h.textContent=v; }
     function input(n){
       if(n==='.'){ if(fresh){cur='0.';fresh=false;} else if(!cur.includes('.')) cur+=n; show(cur); return; }
       if(fresh){cur=n;fresh=false;} else {cur=(cur==='0')?n:cur+n;}
@@ -278,11 +281,11 @@
     document.querySelectorAll('.calc-keys button').forEach(btn=>{
       btn.addEventListener('click',()=>{
         const k=btn.getAttribute('data-k');
-        if(k==='C'){cur='0';prev=null;op=null;fresh=true;show(cur);return;}
+        if(k==='C'){cur='0';prev=null;op=null;fresh=true;show(cur);showHist('');return;}
         if(k==='back'){cur=cur.length>1?cur.slice(0,-1):'0';show(cur);return;}
         if(k==='neg'){if(cur!=='0'&&cur!=='Error'){cur=cur.startsWith('-')?cur.slice(1):'-'+cur;show(cur);}return;}
-        if(k==='='){if(op&&prev!==null){const r=calc(prev,cur,op);cur=(typeof r==='number')?(Math.round(r*1e10)/1e10).toString():r;prev=null;op=null;fresh=true;show(cur);}return;}
-        if(['+','-','*','/','%'].includes(k)){if(op&&prev!==null&&!fresh){const r=calc(prev,cur,op);cur=(typeof r==='number')?(Math.round(r*1e10)/1e10).toString():r;show(cur);}prev=cur;op=k;fresh=true;return;}
+        if(k==='='){if(op&&prev!==null){showHist(prev+' '+op+' '+cur+' =');const r=calc(prev,cur,op);cur=(typeof r==='number')?(Math.round(r*1e10)/1e10).toString():r;prev=null;op=null;fresh=true;show(cur);}return;}
+        if(['+','-','*','/','%'].includes(k)){if(op&&prev!==null&&!fresh){const r=calc(prev,cur,op);cur=(typeof r==='number')?(Math.round(r*1e10)/1e10).toString():r;show(cur);}prev=cur;op=k;fresh=true;showHist(prev+' '+op);return;}
         input(k);
       });
     });
