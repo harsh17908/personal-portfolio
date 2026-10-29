@@ -105,6 +105,10 @@
   .contact-grid{display:flex;gap:32px;flex-wrap:wrap;margin-top:28px;color:var(--muted);font-size:.95rem}
   footer{padding:28px 0;color:var(--faint);font-size:.85rem}
   .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .voice-row{display:flex;gap:8px;margin-bottom:10px}
+  .voice-btn{flex:1;background:rgba(34,197,94,.1);border:1px solid var(--line2);color:var(--accent);border-radius:8px;padding:10px;font-weight:700;cursor:pointer;font-size:.88rem}
+  .voice-btn.listening{background:var(--accent);color:#03170b}
+  .voice-status{font-size:.8rem;color:var(--muted);min-height:20px;margin-bottom:10px;font-family:monospace}
   .demo{margin-top:20px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:24px;display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start}
   .demo-info p{color:var(--muted);font-size:.93rem;margin-top:8px}
   .calc{background:#000;border:1px solid var(--line2);border-radius:12px;padding:16px;max-width:280px}
@@ -217,8 +221,8 @@
     <div class="proj"><small>03 — Live</small><h3>This portfolio</h3><p>Editorial green-black layout inspired by minimal portfolios. Single file, no dependencies, Pages-hosted.</p><a href="#main" id="main">You are here →</a></div>
   </div>
   <div class="demo">
-    <div class="demo-info"><small style="font-family:monospace;color:var(--accent)">Live demo — 01 Calculator</small><h3 style="margin:8px 0">Try it here</h3><p>Mirrors the console version: add, subtract, multiply, divide with divide-by-zero guard. Built for quick testing without leaving the page. Full source in the repository.</p><p style="margin-top:12px"><a href="https://github.com/harsh17908/c-calculator" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Open c-calculator source →</a></p></div>
-    <div class="calc" aria-label="Calculator demo"><div class="calc-display" id="calcDisplay">0</div><div class="calc-keys"><button data-k="C">C</button><button data-k="back">⌫</button><button data-k="%" class="op">%</button><button data-k="/" class="op">/</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="*" class="op">*</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="-" class="op">-</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="+" class="op">+</button><button data-k="0">0</button><button data-k=".">.</button><button data-k="=" class="eq">=</button><button data-k="neg">+/-</button></div></div>
+    <div class="demo-info"><small style="font-family:monospace;color:var(--accent)">Live demo — 01 Calculator + Voice</small><h3 style="margin:8px 0">Try it here, or speak</h3><p>Mirrors the console version with voice input. Say e.g. five plus three. Built for quick testing without leaving the page.</p><p style="margin-top:12px"><a href="https://github.com/harsh17908/c-calculator" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Open c-calculator source →</a> · <a href="https://harsh17908.github.io/c-calculator/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">Standalone live →</a></p></div>
+    <div class="calc" aria-label="Calculator demo"><div class="calc-display" id="calcDisplay">0</div><div class="voice-status" id="calcVoiceStatus">Voice: press and speak, e.g. five plus three</div><div class="voice-row"><button class="voice-btn" id="calcVoiceBtn" type="button">Voice input</button></div><div class="calc-keys"><button data-k="C">C</button><button data-k="back">⌫</button><button data-k="%" class="op">%</button><button data-k="/" class="op">/</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="*" class="op">*</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="-" class="op">-</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="+" class="op">+</button><button data-k="0">0</button><button data-k=".">.</button><button data-k="=" class="eq">=</button><button data-k="neg">+/-</button></div></div>
   </div>
 </section>
 
@@ -286,6 +290,46 @@
         input(k);
       });
     });
+    window.__calcVoice = function(expr){
+      const cBtn=document.querySelector('.calc-keys button[data-k="C"]');
+      if(cBtn) cBtn.click();
+      const map={};
+      document.querySelectorAll('.calc-keys button').forEach(b=>{map[b.getAttribute('data-k')]=b;});
+      for(const ch of expr){
+        if(ch>='0'&&ch<='9'){map[ch].click();}
+        else if(ch==='.'){map['.'].click();}
+        else if(['+','-','*','/','%'].includes(ch)){map[ch].click();}
+      }
+      if(map['=']) map['='].click();
+    };
+  })();
+  (function(){
+    const btn=document.getElementById('calcVoiceBtn');
+    const status=document.getElementById('calcVoiceStatus');
+    if(!btn) return;
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){ if(status) status.textContent='Voice not supported in this browser — use Chrome.'; btn.disabled=true; return; }
+    const words={zero:'0',one:'1',two:'2',three:'3',four:'4',five:'5',six:'6',seven:'7',eight:'8',nine:'9',ten:'10',eleven:'11',twelve:'12',thirteen:'13',fourteen:'14',fifteen:'15',sixteen:'16',seventeen:'17',eighteen:'18',nineteen:'19',twenty:'20',point:'.',dot:'.'};
+    function parse(t){
+      t=t.toLowerCase().replace(/divided by/g,'/').replace(/multiply by/g,'*').replace(/multiplied by/g,'*').replace(/plus/g,'+').replace(/add/g,'+').replace(/minus/g,'-').replace(/subtract/g,'-').replace(/times|x/g,'*').replace(/multiply/g,'*').replace(/divide/g,'/').replace(/over/g,'/').replace(/mod/g,'%').replace(/percent/g,'%').replace(/equals|equal|calculate|result/g,'=').replace(/clear/g,'C');
+      Object.keys(words).forEach(w=>{ t=t.replace(new RegExp('\\b'+w+'\\b','g'),words[w]); });
+      t=t.replace(/[^0-9+\-*/.%()= ]/g,'');
+      return t.replace(/\s+/g,'');
+    }
+    const rec=new SR();
+    rec.lang='en-US'; rec.interimResults=false; rec.maxAlternatives=1;
+    rec.onstart=()=>{btn.classList.add('listening');btn.textContent='Listening...';if(status)status.textContent='Listening... speak now';};
+    rec.onend=()=>{btn.classList.remove('listening');btn.textContent='Voice input';};
+    rec.onerror=(e)=>{if(status)status.textContent='Voice error: '+e.error+' — try again';};
+    rec.onresult=(e)=>{
+      const transcript=e.results[0][0].transcript;
+      if(status)status.textContent='Heard: '+transcript;
+      const expr=parse(transcript);
+      if(!expr||!/\\d/.test(expr)){if(status)status.textContent='Could not understand: '+transcript;return;}
+      if(window.__calcVoice) window.__calcVoice(expr);
+      if(status)status.textContent+=' → '+expr;
+    };
+    btn.addEventListener('click',()=>{try{rec.start();}catch(e){}});
   })();
 </script>
 </body>
